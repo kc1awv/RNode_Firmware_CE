@@ -36,6 +36,7 @@
   #define BOARD_LORA32_V1_0   0x39
   #define BOARD_HELTEC32_V2   0x38
   #define BOARD_HELTEC32_V3   0x3A
+  #define BOARD_STATION_G2    0X3B
   #define BOARD_RNODE_NG_20   0x40
   #define BOARD_RNODE_NG_21   0x41
   #define BOARD_T3S3   0x42
@@ -44,9 +45,10 @@
   #define BOARD_RAK4631       0x51
 
   // Displays
-  #define OLED 0x01
+  #define OLED    0x01
   #define EINK_BW 0x02
   #define EINK_3C 0x03
+  #define SH110X  0x04
 
   #if defined(ESP32)
     #define PLATFORM PLATFORM_ESP32
@@ -442,6 +444,55 @@
               13, // pin_busy
               14, // pin_dio
               12, // pin_reset
+              -1, // pin_txen
+              -1, // pin_rxen
+              -1  // pin_tcxo_enable
+          }
+      };
+
+    #elif BOARD_MODEL == BOARD_STATION_G2
+      #define IS_ESP32S3 true
+      #define HAS_DISPLAY true
+      #define DISPLAY SH110X
+      #define HAS_BLUETOOTH false
+      #define HAS_BLE true
+      #define HAS_CONSOLE false
+      #define HAS_EEPROM true
+      #define HAS_INPUT true
+      #define HAS_SLEEP true
+      #define PIN_WAKEUP GPIO_NUM_0
+      #define WAKEUP_LEVEL 0
+      #define INTERFACE_COUNT 1
+
+      const int pin_btn_usr1 = 38;
+
+      #if defined(EXTERNAL_LEDS)
+        const int pin_led_rx = 8;
+        const int pin_led_tx = 9;
+      #else
+        const int pin_led_rx = 8;
+        const int pin_led_tx = 9;
+      #endif
+
+      const uint8_t interfaces[INTERFACE_COUNT] = {SX1262};
+      const bool interface_cfg[INTERFACE_COUNT][3] = { 
+                    // SX1262
+          {
+              false, // DEFAULT_SPI
+              true, // HAS_TCXO
+              true  // DIO2_AS_RF_SWITCH
+          }, 
+      };
+      const int8_t interface_pins[INTERFACE_COUNT][10] = { 
+                  // SX1262
+          {
+              11, // pin_ss
+              12, // pin_sclk
+              13, // pin_mosi
+              14, // pin_miso
+              47, // pin_busy
+              48, // pin_dio
+              21, // pin_reset
               -1, // pin_txen
               -1, // pin_rxen
               -1  // pin_tcxo_enable

@@ -65,11 +65,13 @@ uint8_t eeprom_read(uint32_t mapped_addr);
   #if BOARD_MODEL == BOARD_HELTEC32_V3
     //https://github.com/espressif/esp-idf/issues/8855
     #include "hal/wdt_hal.h"
-	#elif BOARD_MODEL == BOARD_T3S3
-		#include "hal/wdt_hal.h"
+  #elif BOARD_MODEL == BOARD_STATION_G2
+    #include "hal/wdt_hal.h"
+  #elif BOARD_MODEL == BOARD_T3S3
+	#include "hal/wdt_hal.h"
   #else BOARD_MODEL != BOARD_T3S3
-	  #include "soc/rtc_wdt.h"
-	#endif
+	#include "soc/rtc_wdt.h"
+  #endif
   #define ISR_VECT IRAM_ATTR
 #else
   #define ISR_VECT
@@ -188,6 +190,11 @@ uint8_t boot_vector = 0x00;
 			void led_rx_off() {	digitalWrite(pin_led_rx, LOW); }
 			void led_tx_on()  { digitalWrite(pin_led_tx, HIGH); }
 			void led_tx_off() { digitalWrite(pin_led_tx, LOW); }
+	#elif BOARD_MODEL == BOARD_STATION_G2
+		void led_rx_on()  { digitalWrite(pin_led_rx, HIGH); }
+		void led_rx_off() {	digitalWrite(pin_led_rx, LOW); }
+		void led_tx_on()  { digitalWrite(pin_led_tx, HIGH); }
+		void led_tx_off() { digitalWrite(pin_led_tx, LOW); }
 	#elif BOARD_MODEL == BOARD_LORA32_V2_1
 		void led_rx_on()  { digitalWrite(pin_led_rx, HIGH); }
 		void led_rx_off() {	digitalWrite(pin_led_rx, LOW); }
