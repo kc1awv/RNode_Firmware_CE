@@ -1388,6 +1388,8 @@ bool eeprom_model_valid() {
 	if (model == MODEL_C4 || model == MODEL_C9) {
 	#elif BOARD_MODEL == BOARD_HELTEC32_V3
 	if (model == MODEL_C5 || model == MODEL_CA) {
+	#elif BOARD_MODEL == BOARD_STATION_G2
+	if (model == MODEL_FF || model == MODEL_FE) {
     #elif BOARD_MODEL == BOARD_RAK4631
     if (model == MODEL_11 || model == MODEL_12 || model == MODEL_13 || model == MODEL_14 || model == MODEL_21) {
 	#elif BOARD_MODEL == BOARD_HUZZAH32
